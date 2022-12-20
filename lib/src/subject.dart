@@ -23,12 +23,7 @@ class Subject {
   }
 
   Future<List<Map<String, String>>> get() async {
-    final ck = {
-      "_language_": "ko",
-      "WMONID": _baseInfo.wmonid,
-      "LMS_SESSIONID": _baseInfo.session
-    };
-    final ckString = CookieManage.setCookie(ck);
+    final ckString = BaseCookieManage.setCookie(_baseInfo);
     final res =
         await http.get(SubjectURI.main(), headers: {'Cookie': ckString});
     final document = parser.parse(res.body);
@@ -46,7 +41,7 @@ class Subject {
     return output;
   }
 
-  Future<void> move(String subjectKj) async {
+  Future<void> move(String kj) async {
     final ck = {
       "_language_": "ko",
       "WMONID": _baseInfo.wmonid,
@@ -56,7 +51,7 @@ class Subject {
     final res = await http.post(SubjectURI.move(),
         headers: {'Cookie': ckString},
         body: jsonEncode(<String, String>{
-          'KJKEY': subjectKj,
+          'KJKEY': kj,
           'returnData': 'json',
           'encoding': 'utf-8'
         }));
