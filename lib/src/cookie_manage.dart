@@ -1,3 +1,5 @@
+import 'base.dart';
+
 class CookieManage {
   static Map<String, String> getCookie(Map<String, String> headers) {
     Map<String, String> cookieMap = {};
@@ -18,6 +20,18 @@ class CookieManage {
     List<String> cookieList = [];
     cookieMap.forEach((key, value) => cookieList.add('$key=$value'));
     return cookieList.join(';');
+  }
+}
+
+class BaseCookieManage {
+  // for consistency, param type is only Map, do not implement String type param
+  // this method force override base cookie key-values
+  static String setCookie(BaseInfo baseInfo, [Map<String, String>? cookieMap]) {
+    cookieMap ??= {};
+    cookieMap['_language_'] = 'ko';
+    cookieMap['WMONID'] = baseInfo.wmonid;
+    cookieMap['LMS_SESSIONID'] = baseInfo.session;
+    return CookieManage.setCookie(cookieMap);
   }
 }
 
