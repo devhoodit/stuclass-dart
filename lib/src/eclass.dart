@@ -1,12 +1,11 @@
 import 'login.dart';
 import 'subject.dart';
 import 'attend.dart';
-
 import 'base.dart';
 
 class Eclass {
   late String _id;
-  final BaseInfo _baseinfo = BaseInfo('', '');
+  final BaseInfo _baseInfo = BaseInfo('', '', '');
   late Login login;
   late Subject subject;
   late Attend attend;
@@ -19,9 +18,9 @@ class Eclass {
   Future<void> initalize() async {
     final baseinfo = await login.getLoginInfo();
     if (baseinfo['LMS_SESSIONID'] == '') throw 'id or password not matched';
-    _baseinfo(baseinfo['LMS_SESSIONID']!, baseinfo['WMONID']!);
+    _baseInfo(_id, baseinfo['LMS_SESSIONID']!, baseinfo['WMONID']!);
 
-    subject = Subject(_baseinfo);
-    attend = Attend(_baseinfo, subject);
+    subject = Subject(_baseInfo);
+    attend = Attend(_baseInfo, subject);
   }
 }
