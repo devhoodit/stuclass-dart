@@ -3,6 +3,7 @@ import 'subject.dart';
 import 'cookie_manage.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
+import 'auth.dart';
 
 class AttendURI {
   static Uri attend(String id, String kj) {
@@ -18,8 +19,9 @@ class AttendURI {
 
 class Attend {
   late BaseInfo _baseInfo;
+  late Auth _auth;
   late Subject _subject;
-  Attend(this._baseInfo, this._subject);
+  Attend(this._baseInfo, this._auth, this._subject);
 
   Future<Map<String, List<AttendContainer>>> getAll() async {
     return {};
