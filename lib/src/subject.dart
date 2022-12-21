@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:stuclass/src/auth.dart';
+
 import 'base.dart';
 import 'cookie_manage.dart';
 import 'package:http/http.dart' as http;
@@ -18,9 +20,8 @@ class SubjectURI {
 
 class Subject {
   late BaseInfo _baseInfo;
-  Subject(BaseInfo baseinfo) {
-    _baseInfo = baseinfo;
-  }
+  late Auth _auth;
+  Subject(this._baseInfo, this._auth);
 
   Future<List<Map<String, String>>> get() async {
     final ckString = BaseCookieManage.setCookie(_baseInfo);
