@@ -17,7 +17,7 @@ class Eclass {
     await auth.login();
 
     subject = Subject(auth);
-    attend = Attend(auth, subject);
+    attend = Attend(auth);
     lectureMaterial = LectureMaterial(auth);
   }
 }
