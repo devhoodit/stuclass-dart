@@ -2,7 +2,6 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
 import 'package:stuclass/src/auth.dart';
 import 'package:stuclass/src/cookie_manage.dart';
-import 'base.dart';
 
 class LectureMaterialURI {
   static list(String kj, String id) {
@@ -17,14 +16,13 @@ class LectureMaterialURI {
 }
 
 class LectureMaterial {
-  late BaseInfo _baseInfo;
   late Auth _auth;
-  LectureMaterial(this._baseInfo, this._auth);
+  LectureMaterial(this._auth);
   // list[{title, prof, views, downloadlinks}]
   Future<List<Map<String, dynamic>>> get(String kj) async {
     await _auth.move(kj);
-    final ckString = BaseCookieManage.setCookie(_baseInfo);
-    final res = await http.post(LectureMaterialURI.list(kj, _baseInfo.id),
+    final ckString = BaseCookieManage.setCookie(_auth.baseInfo);
+    final res = await http.post(LectureMaterialURI.list(kj, _auth.baseInfo.id),
         headers: {'Cookie': ckString});
     final document = parser.parse(res.body);
     List<Map<String, dynamic>> output = [];
@@ -48,7 +46,7 @@ class LectureMaterial {
         final contentSeq =
             downloadBox[1].id.split("_")[2]; // this is contentseq
         final res = await http.get(
-            LectureMaterialURI.box(kj, _baseInfo.id, contentSeq),
+            LectureMaterialURI.box(kj, _auth.baseInfo.id, contentSeq),
             headers: {'Cookie': ckString});
         final document = parser.parse(res.body);
         final downloadBoxElements =

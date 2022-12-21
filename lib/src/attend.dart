@@ -1,4 +1,3 @@
-import 'base.dart';
 import 'subject.dart';
 import 'cookie_manage.dart';
 import 'package:http/http.dart' as http;
@@ -18,19 +17,18 @@ class AttendURI {
 }
 
 class Attend {
-  late BaseInfo _baseInfo;
   late Auth _auth;
   late Subject _subject;
-  Attend(this._baseInfo, this._auth, this._subject);
+  Attend(this._auth, this._subject);
 
   Future<Map<String, List<AttendContainer>>> getAll() async {
     return {};
   }
 
   Future<List<AttendContainer>> get(String kj) async {
-    final ckString = BaseCookieManage.setCookie(_baseInfo);
+    final ckString = BaseCookieManage.setCookie(_auth.baseInfo);
     await subroom(kj);
-    final res = await http.post(AttendURI.attend(_baseInfo.id, kj),
+    final res = await http.post(AttendURI.attend(_auth.baseInfo.id, kj),
         headers: {'Cookie': ckString});
     final document = parser.parse(res.body);
 
@@ -61,7 +59,7 @@ class Attend {
 
   Future<void> subroom(String kj) async {
     final payload = {"KJKEY": kj};
-    final ckString = BaseCookieManage.setCookie(_baseInfo);
+    final ckString = BaseCookieManage.setCookie(_auth.baseInfo);
     await http.post(AttendURI.subroom(),
         headers: {'Cookie': ckString}, body: payload);
   }

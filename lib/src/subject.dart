@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:stuclass/src/auth.dart';
 
-import 'base.dart';
 import 'cookie_manage.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
@@ -19,12 +18,11 @@ class SubjectURI {
 }
 
 class Subject {
-  late BaseInfo _baseInfo;
   late Auth _auth;
-  Subject(this._baseInfo, this._auth);
+  Subject(this._auth);
 
   Future<List<Map<String, String>>> get() async {
-    final ckString = BaseCookieManage.setCookie(_baseInfo);
+    final ckString = BaseCookieManage.setCookie(_auth.baseInfo);
     final res =
         await http.get(SubjectURI.main(), headers: {'Cookie': ckString});
     final document = parser.parse(res.body);
@@ -45,8 +43,8 @@ class Subject {
   Future<void> move(String kj) async {
     final ck = {
       "_language_": "ko",
-      "WMONID": _baseInfo.wmonid,
-      "LMS_SESSIONID": _baseInfo.session
+      "WMONID": _auth.baseInfo.wmonid,
+      "LMS_SESSIONID": _auth.baseInfo.session
     };
     final ckString = CookieManage.setCookie(ck);
     final res = await http.post(SubjectURI.move(),

@@ -1,4 +1,4 @@
-import 'base.dart';
+import 'auth.dart' show BaseInfo;
 
 class CookieManage {
   static Map<String, String> getCookie(Map<String, String> headers) {
